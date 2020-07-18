@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <title>
+            <%= title %>   
+        </title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css">       
+        <link rel="stylesheet" href="/css/home.css">
+    </head>
+
+    <body>
+        <div id="main-container">
+            <h1 id="topic"><i class="fas fa-list-ul" id="title-icon"></i>TODO App</h1>
+
+            <form action="/create-task" method="POST">
+                <p id="description">DESCRIPTION</p>
+
+                <!-- Entering the task to be added -->
+
+                <input type="text" name="name" placeholder="What would you like to do..?" id="name" required>
+                <div id="container">
+                    <div id="heading">
+                        <div>
+                            <p id="category">CATEGORY</p>
+                        </div>
+                        <div>
+
+                            <!-- for te dropdown list conatining all categories -->
+
+                            <select name="category" id="dropdown">
+                                <option value="">Choose a category</option>
+                                <option value="PERSONAL">PERSONAL</option>
+                                <option value="WORK" class="work">WORK</option>
+                                <option value="SCHOOL">SCHOOL</option>
+                                <option value="CLEANING">CLEANING</option>
+                                <option value="OTHERS">OTHERS</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="heading">
+                        <div>
+                            <p id="category">DUE DATE</p>
+                        </div>
+                        <div>
+                            <!-- for selecting the date of taks -->
+
+                            <input type="date" name="date">
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <!-- add task and delete tasks buttons -->
+
+                <div id="buttons">
+                        <div id="add-button">
+                            <button type="submit"  ><i class="fa fa-plus-circle" id="icon"></i>ADD TASK</button>
+                        </div>
+                        <div id="delete-button">
+                            <a href="/delete-selected-task/">
+                                <span ><i class="far fa-trash-alt" id="icon"></i>DELETE TASKS</span>
+                            </a>
+                        </div>
+                </div>
+            </form>
+
+        <div>
+            <ul>
+
+                <% for (let i of tasks_list) { %>
+
+                    <!-- if task is checked -->
+
+                    <% if(i.select){ %>
+                    
+                    <li>
+                        <div id="listItems">
+                            <div id="box">
+                                <a href="/deselect-task/?id=<%= i._id %>&select=<%= i.select %>"> 
+                                    <i class="far fa-check-square"></i>
+                                </a>
+                            </div>
+                            
+                            <div id="name-container" style="text-decoration: line-through;">
+                                <p id="task"><%= i.name %> <br><i class="far fa-calendar-alt" id="calender"></i></p>
+                                <p id="date"></i><%= i.date %></p>
+                            </div>
+
+                        
+                        <span id="task-type">
+                            <% if(i.category == "WORK"){ %> 
+                                <p id="task-category" style="background-color: yellow"> <%= i.category %> </p>
+                            <% } else if(i.category == "PERSONAL"){%> 
+                                <p id="task-category" style="background-color: lightgreen"> <%= i.category %> </p>
+                            <% } else if(i.category == "SCHOOL"){%> 
+                                <p id="task-category" style="background-color: skyblue"> <%= i.category %> </p>
+                            <% } else if(i.category == "CLEANING"){%> 
+                                <p id="task-category" style="background-color:pink"> <%= i.category %> </p>
+                            <% } else { %> 
+                                <p id="task-category" style="background-color: violet"> <%= i.category %> </p>
+                            <% } %>
+                        </span>
+                        
+                        </div>
+                        
+                        
+                    </li>
+                    <% }else{ %>
+
+                        <!-- if task is not checked -->
+
+                        <li>  
+                            <div id="listItems">
+                                <div id="box">
+                                    <a href="/select-task/?id=<%= i._id %>&select=<%= i.select %>"> 
+                                        <i class="far fa-square"></i>
+                                    </a>
+                                </div>
+                                <div id="name-container">
+                                    <p id="task"><%= i.name %> <br><i class="far fa-calendar-alt" id="calender"></i></p>
+                                    <p id="date"></i><%= i.date %></p>
+                                </div>
+    
+                            
+                            <span id="task-type">
+                                <% if(i.category == "WORK"){ %> 
+                                    <p id="task-category" style="background-color:yellow"> <%= i.category %> </p>
+                                <% } else if(i.category == "PERSONAL"){%> 
+                                    <p id="task-category" style="background-color: lightgreen"> <%= i.category %> </p>
+                                <% } else if(i.category == "SCHOOL"){%> 
+                                    <p id="task-category" style="background-color: skyblue"> <%= i.category %> </p>
+                                <% } else if(i.category == "CLEANING"){%> 
+                                    <p id="task-category" style="background-color: pink"> <%= i.category %> </p>
+                                <% } else { %> 
+                                    <p id="task-category" style="background-color: violet"> <%= i.category %> </p>
+                                <% } %>
+                            </span>
+                            
+                            </div>
+                            
+                            
+                        </li>
+                        <% } %>
+
+
+                    <% } %>
+            </ul>
+            <!-- for showing total number of taks -->
+            
+
+            <div><p>Total tasks : <%= tasks_list.length %></p> </div>
+        </div>
+        </div>
+           
+        
+
+        
+        <script type="text/javascript" src="/js/home.js"></script>
+    </body>
+</html>
